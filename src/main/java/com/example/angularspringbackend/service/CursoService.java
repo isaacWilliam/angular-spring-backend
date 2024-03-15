@@ -1,5 +1,6 @@
 package com.example.angularspringbackend.service;
 
+import com.example.angularspringbackend.exception.RecordNotFoundException;
 import com.example.angularspringbackend.model.Curso;
 import com.example.angularspringbackend.repository.CursoRepository;
 import jakarta.validation.Valid;
@@ -28,29 +29,25 @@ public class CursoService {
         return cursoRepository.findAll();
     }
 
-    public Optional<Curso> findById(@PathVariable @NotNull @Positive Long id) {
-        return cursoRepository.findById(id);
+    public Curso findById(@PathVariable @NotNull @Positive Long id) {
+        return cursoRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public Curso create(@Valid Curso record) {
         return cursoRepository.save(record);
     }
 
-    public  Optional<Curso> update(@NotNull @Positive Long id, @Valid Curso curso) {
+    public  Curso update(@NotNull @Positive Long id, @Valid Curso curso) {
         return cursoRepository.findById(id)
                 .map(recordFound -> {
                     recordFound.setDsNome(curso.getDsNome());
                     recordFound.setDsCategory(curso.getDsCategory());
                     return cursoRepository.save(recordFound);
-                });
+                }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public Boolean delete(@NotNull @Positive Long id) {
-        return cursoRepository.findById(id)
-                .map(recordFound -> {
-                    cursoRepository.deleteById(id);
-                    return true;
-                })
-                .orElse(false);
+    public void delete(@NotNull @Positive Long id) {
+        cursoRepository.delete(cursoRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }
