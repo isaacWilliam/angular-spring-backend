@@ -1,5 +1,6 @@
 package com.example.angularspringbackend.model;
 
+import com.example.angularspringbackend.enums.Category;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,10 +29,9 @@ public class Curso {
     private String dsNome;
 
     @NotNull
-    @Length(max = 10)
-    @Pattern(regexp = "Front-end|Back-end")
-    @Column(name = "ds_category", length = 10, nullable = false)
-    private String dsCategory;
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "fg_category", nullable = false)
+    private Category fgCategory;
 
     @NotNull
     @Convert(converter = TrueFalseConverter.class)

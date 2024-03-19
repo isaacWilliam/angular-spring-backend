@@ -1,5 +1,6 @@
 package com.example.angularspringbackend;
 
+import com.example.angularspringbackend.enums.Category;
 import com.example.angularspringbackend.model.Curso;
 import com.example.angularspringbackend.repository.CursoRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -21,7 +22,7 @@ public class AngularSpringBackendApplication {
 
 			Curso c = new Curso();
 			c.setDsNome("Angular");
-			c.setDsCategory("Front-end");
+			c.setFgCategory(Category.FRONTEND);
 			cursoRepository.save(c);
 		};
 	}

@@ -1,5 +1,6 @@
 package com.example.angularspringbackend.controller;
 
+import com.example.angularspringbackend.dto.CursoDTO;
 import com.example.angularspringbackend.model.Curso;
 import com.example.angularspringbackend.service.CursoService;
 import jakarta.validation.Valid;
@@ -24,23 +25,22 @@ public class CursoController {
     }
 
     @GetMapping
-    public List<Curso> list() {
+    public List<CursoDTO> list() {
         return cursoService.list();
+    }
+    @GetMapping("/{id}")
+    public CursoDTO findById(@PathVariable @NotNull @Positive Long id) {
+        return cursoService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Curso create(@RequestBody @Valid Curso record) {
+    public CursoDTO create(@RequestBody @Valid @NotNull CursoDTO record) {
         return cursoService.create(record);
     }
 
-    @GetMapping("/{id}")
-    public Curso findById(@PathVariable @NotNull @Positive Long id) {
-        return cursoService.findById(id);
-    }
-
     @PutMapping("/{id}")
-    public Curso update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid Curso curso) {
+    public CursoDTO update(@PathVariable @NotNull @Positive Long id, @RequestBody @Valid @NotNull CursoDTO curso) {
         return cursoService.update(id, curso);
     }
 
