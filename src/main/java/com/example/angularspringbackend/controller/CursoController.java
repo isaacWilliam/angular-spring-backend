@@ -1,16 +1,16 @@
 package com.example.angularspringbackend.controller;
 
 import com.example.angularspringbackend.dto.CursoDTO;
-import com.example.angularspringbackend.model.Curso;
+import com.example.angularspringbackend.dto.CursoPageDTO;
 import com.example.angularspringbackend.service.CursoService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Validated
 @RestController
@@ -25,8 +25,8 @@ public class CursoController {
     }
 
     @GetMapping
-    public List<CursoDTO> list() {
-        return cursoService.list();
+    public CursoPageDTO list(@RequestParam(name = "page", defaultValue = "0") @PositiveOrZero int pageNumber, @RequestParam(defaultValue = "10") @Positive @Max(20) int pageSize) {
+        return cursoService.list(pageNumber, pageSize);
     }
     @GetMapping("/{id}")
     public CursoDTO findById(@PathVariable @NotNull @Positive Long id) {

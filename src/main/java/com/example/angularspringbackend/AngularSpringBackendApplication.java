@@ -1,6 +1,7 @@
 package com.example.angularspringbackend;
 
 import com.example.angularspringbackend.enums.Category;
+import com.example.angularspringbackend.model.Aula;
 import com.example.angularspringbackend.model.Curso;
 import com.example.angularspringbackend.repository.CursoRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -20,10 +21,25 @@ public class AngularSpringBackendApplication {
 		return args -> {
 			cursoRepository.deleteAll();
 
-			Curso c = new Curso();
-			c.setDsNome("Angular");
-			c.setFgCategory(Category.FRONTEND);
-			cursoRepository.save(c);
+			for (int i = 0; i < 100; i++) {
+				Curso c = new Curso();
+				c.setDsNome("Angular " + i);
+				c.setFgCategory(Category.FRONTEND);
+
+				Aula a = new Aula();
+				a.setDsNome("Introduçao");
+				a.setDsYouTube("watch?v=1");
+				a.setCurso(c);
+				c.getAulas().add(a);
+				cursoRepository.save(c);
+
+				Aula a1 = new Aula();
+				a1.setDsNome("Instalação");
+				a1.setDsYouTube("watch?v=2");
+				a1.setCurso(c);
+				c.getAulas().add(a1);
+				cursoRepository.save(c);
+			}
 		};
 	}
 }
